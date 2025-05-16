@@ -2,8 +2,8 @@ import os
 import fnmatch
 import json
 
-MMSPlugin.plugin_name = 'baseext'
-MMSPlugin.plugin_alias = 'baseext'
+MMSPlugin.plugin_name = 'websocket.ext'
+MMSPlugin.plugin_alias = 'websocket.ext'
 
 for sdk_target in MMSPlugin.sdk_targets:
     sdk = sdk_target.sdk
@@ -25,6 +25,12 @@ for sdk_target in MMSPlugin.sdk_targets:
         for _file in files:
             if fnmatch.fnmatch(_file, '*.cpp'):
                 binary.sources.append(os.path.join(root, _file).replace("\\", "/"))
+
+    for root, dirs, files in os.walk(os.path.join(builder.sourcePath, "vendor", "ixwebsocket", "include", "ixwebsocket")):
+        for _file in files:
+            if fnmatch.fnmatch(_file, '*.cpp'):
+                binary.sources.append(os.path.join(root, _file).replace("\\", "/"))
+    
 
     binary.sources.append(os.path.join(sdk['path'], 'entity2', 'entitysystem.cpp'))
     binary.sources.append(os.path.join(sdk['path'], 'entity2', 'entityidentity.cpp'))
@@ -124,7 +130,8 @@ for sdk_target in MMSPlugin.sdk_targets:
             "odbc32.lib",
             "odbccp32.lib",
             "msvcrt.lib",
-            os.path.join(sdk['path'], 'lib', 'public', 'win64', 'steam_api64.lib')
+            os.path.join(sdk['path'], 'lib', 'public', 'win64', 'steam_api64.lib'),
+            os.path.join(builder.sourcePath, 'vendor', 'ixwebsocket', 'lib', 'libixwebscoket.a'),
         ]
         binary.compiler.defines += [
             "COMPILER_MSVC",
@@ -161,6 +168,7 @@ for sdk_target in MMSPlugin.sdk_targets:
         os.path.join(builder.sourcePath, 'vendor', 'embedder', 'src'),
         os.path.join(builder.sourcePath, 'vendor', 'swiftly-ext', 'hooks'),
         os.path.join(builder.sourcePath, 'vendor', 'swiftly-ext', 'hooks', 'dynohook'),
+        os.path.join(builder.sourcePath, 'vendor',  'ixwebsocket', 'include'),
 
         os.path.join(sdk['path']),
         os.path.join(sdk['path'], 'public'),

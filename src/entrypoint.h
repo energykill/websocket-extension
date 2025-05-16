@@ -2,13 +2,14 @@
 #define _entrypoint_h
 
 #include <string>
+#include <Embedder.h>
 
 #include <swiftly-ext/core.h>
 #include <swiftly-ext/extension.h>
 #include <swiftly-ext/hooks/function.h>
 #include <swiftly-ext/hooks/vfunction.h>
 
-class BaseExtension : public SwiftlyExt
+class WebSocketExtension : public SwiftlyExt
 {
 public:
     bool Load(std::string& error, SourceHook::ISourceHook* SHPtr, ISmmAPI* ismm, bool late);
@@ -27,7 +28,7 @@ public:
     const char* GetWebsite();
 };
 
-extern BaseExtension g_Ext;
+extern WebSocketExtension g_Ext;
 DECLARE_GLOBALVARS();
 
 #endif
