@@ -1,6 +1,7 @@
 #include "entrypoint.h"
 #include "ServerManager.h"
 #include "PluginWS.h"
+#include <ixwebsocket/IXNetSystem.h>
 
 //////////////////////////////////////////////////////////////
 /////////////////        Core Variables        //////////////
@@ -19,14 +20,16 @@ EXT_EXPOSE(g_Ext);
 bool WebSocketExtension::Load(std::string& error, SourceHook::ISourceHook* SHPtr, ISmmAPI* ismm, bool late)
 {
     SAVE_GLOBALVARS();
-
+    ix::initNetSystem();
     g_websocketServerManager = new WebSocketServerManager();
     return true;
 }
 
 bool WebSocketExtension::Unload(std::string& error)
 {
+    ix::uninitNetSystem();
     delete g_websocketServerManager;
+    
     return true;
 }
 
